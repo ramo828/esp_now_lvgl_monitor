@@ -13,6 +13,7 @@ extern "C" {
 void set_colors(lv_event_t * e);
 void set_alarm(lv_event_t * e);
 void slave_restart(lv_event_t * e);
+void switch_theme(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

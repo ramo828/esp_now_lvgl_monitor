@@ -41,6 +41,10 @@ TFT_eSPI *lcd = &tft;
 static lv_color_t buf[LV_HOR_RES * LV_VER_RES / 3];
 static lv_disp_draw_buf_t disp_buf;
 
+lv_chart_series_t *ui_graph_series_1;
+lv_chart_series_t *ui_graph_series_2;
+lv_chart_series_t *ui_graph_series_3;
+
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
   uint32_t w = area->x2 - area->x1 + 1;
   uint32_t h = area->y2 - area->y1 + 1;
@@ -119,6 +123,9 @@ void setup() {
   indev_drv.read_cb = my_touchpad_read;
   lv_indev_drv_register(&indev_drv);
   ui_init();
+  ui_graph_series_1 = lv_chart_add_series(ui_graph, lv_color_hex(0xFF0000), LV_CHART_AXIS_PRIMARY_Y);  // Kırmızı
+  ui_graph_series_2 = lv_chart_add_series(ui_graph, lv_color_hex(0x00FF00), LV_CHART_AXIS_PRIMARY_Y);  // Yeşil
+  ui_graph_series_3 = lv_chart_add_series(ui_graph, lv_color_hex(0x0000FF), LV_CHART_AXIS_PRIMARY_Y);  // Mavi
 }
 void set_alarm(lv_event_t *e) {
   lv_event_code_t code = lv_event_get_code(e);
@@ -150,11 +157,19 @@ void set_colors(lv_event_t *e) {
 
 void slave_restart(lv_event_t *e) {
   lv_event_code_t code = lv_event_get_code(e);
-  if (code == LV_EVENT_PRESSED) {  //  Butona basıldığında
+  if (code == LV_EVENT_PRESSED) {  // Butona basıldığında
     send_msg.reboot_status = 1;
   } else if (code == LV_EVENT_RELEASED) {  // Buton bırakıldığında
     send_msg.reboot_status = 0;
   }
+}
+
+void update_chart(float temp, float hum, int ldr) {
+  lv_chart_set_next_value(ui_graph, ui_graph_series_1, temp);                       // Sıcaklık verisini ekle
+  lv_chart_set_next_value(ui_graph, ui_graph_series_2, hum);                        // Nem verisini ekle
+  lv_chart_set_next_value(ui_graph, ui_graph_series_3, map(ldr, 0, 1000, 0, 100));  // Nem verisini ekle
+
+  lv_chart_refresh(ui_graph);  // Grafiği güncelle
 }
 
 void loop() {
@@ -168,10 +183,11 @@ void loop() {
   lv_arc_set_value(ui_temperature, int(temp));
   lv_arc_set_value(ui_humidity, int(humidity));
   lv_arc_set_value(ui_light, int(ldr));
+  update_chart(temp, humidity, ldr);
   lv_obj_add_event_cb(ui_alarmbutton, set_alarm, LV_EVENT_PRESSED, NULL);
   lv_obj_add_event_cb(ui_alarmbutton, set_alarm, LV_EVENT_RELEASED, NULL);
-  lv_obj_add_event_cb(ui_restartbutton, slave_restart, LV_EVENT_PRESSED, NULL);
-  lv_obj_add_event_cb(ui_restartbutton, slave_restart, LV_EVENT_RELEASED, NULL);
+  lv_obj_add_event_cb(ui_restartButton, slave_restart, LV_EVENT_PRESSED, NULL);
+  lv_obj_add_event_cb(ui_restartButton, slave_restart, LV_EVENT_RELEASED, NULL);
   send_msg.id = 1;
   esp_now_send(slaveAddress, (uint8_t *)&send_msg, sizeof(send_msg));  // veriyi gönder
   delay(1);                                                            // UI'nin güncellenmesi için ufak bir gecikme

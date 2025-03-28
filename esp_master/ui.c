@@ -13,19 +13,19 @@ void ui_ekran_screen_init(void);
 lv_obj_t * ui_ekran;
 lv_obj_t * ui_temperature;
 lv_obj_t * ui_templabel;
-lv_obj_t * ui_temperaturelogo;
 lv_obj_t * ui_humidity;
 lv_obj_t * ui_humidtylabel;
-lv_obj_t * ui_humiditylogo;
 lv_obj_t * ui_light;
-lv_obj_t * ui_lightlogo;
 lv_obj_t * ui_lightlabel;
 void ui_event_colors(lv_event_t * e);
 lv_obj_t * ui_colors;
 void ui_event_alarmbutton(lv_event_t * e);
 lv_obj_t * ui_alarmbutton;
-void ui_event_ImgButton1(lv_event_t * e);
-lv_obj_t * ui_ImgButton1;
+void ui_event_restartButton(lv_event_t * e);
+lv_obj_t * ui_restartButton;
+lv_obj_t * ui_graph;
+void ui_event_darkandlight(lv_event_t * e);
+lv_obj_t * ui_darkandlight;
 // CUSTOM VARIABLES
 
 // EVENTS
@@ -62,12 +62,21 @@ void ui_event_alarmbutton(lv_event_t * e)
     }
 }
 
-void ui_event_ImgButton1(lv_event_t * e)
+void ui_event_restartButton(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
 
     if(event_code == LV_EVENT_CLICKED) {
         slave_restart(e);
+    }
+}
+
+void ui_event_darkandlight(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        switch_theme(e);
     }
 }
 

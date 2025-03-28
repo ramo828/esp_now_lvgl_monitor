@@ -30,33 +30,34 @@ void ui_ekran_screen_init(void);
 extern lv_obj_t * ui_ekran;
 extern lv_obj_t * ui_temperature;
 extern lv_obj_t * ui_templabel;
-extern lv_obj_t * ui_temperaturelogo;
 extern lv_obj_t * ui_humidity;
 extern lv_obj_t * ui_humidtylabel;
-extern lv_obj_t * ui_humiditylogo;
 extern lv_obj_t * ui_light;
-extern lv_obj_t * ui_lightlogo;
 extern lv_obj_t * ui_lightlabel;
 void ui_event_colors(lv_event_t * e);
 extern lv_obj_t * ui_colors;
 void ui_event_alarmbutton(lv_event_t * e);
 extern lv_obj_t * ui_alarmbutton;
-void ui_event_ImgButton1(lv_event_t * e);
-extern lv_obj_t * ui_ImgButton1;
+void ui_event_restartButton(lv_event_t * e);
+extern lv_obj_t * ui_restartButton;
+extern lv_obj_t * ui_graph;
+void ui_event_darkandlight(lv_event_t * e);
+extern lv_obj_t * ui_darkandlight;
 // CUSTOM VARIABLES
 
 // EVENTS
 extern lv_obj_t * ui____initial_actions0;
 
 // IMAGES AND IMAGE SETS
-LV_IMG_DECLARE(ui_img_212523610);    // assets/temperature (2).png
-LV_IMG_DECLARE(ui_img_5528042);    // assets/humidity (1).png
-LV_IMG_DECLARE(ui_img_1895508086);    // assets/idea-bulb (1).png
-LV_IMG_DECLARE(ui_img_bell_png);    // assets/bell.png
-LV_IMG_DECLARE(ui_img_2137509695);    // assets/bell (2).png
+LV_IMG_DECLARE(ui_img_temperature_png);    // assets/temperature.png
+LV_IMG_DECLARE(ui_img_humidity_png);    // assets/humidity.png
+LV_IMG_DECLARE(ui_img_1536731275);    // assets/light-bulb.png
 LV_IMG_DECLARE(ui_img_781912046);    // assets/bell (1).png
-LV_IMG_DECLARE(ui_img_synchronize_png);    // assets/synchronize.png
-LV_IMG_DECLARE(ui_img_1760234689);    // assets/synchronize (1).png
+LV_IMG_DECLARE(ui_img_bell_png);    // assets/bell.png
+LV_IMG_DECLARE(ui_img_restart_png);    // assets/restart.png
+LV_IMG_DECLARE(ui_img_1257822616);    // assets/restart (1).png
+LV_IMG_DECLARE(ui_img_432815713);    // assets/night-mode.png
+LV_IMG_DECLARE(ui_img_84851999);    // assets/day-mode.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_Font1);
